@@ -7,13 +7,20 @@
     <title>Portfólio | Dev.Ponciano</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NCA2NCc+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+PHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjZDk0NmVmJy8+PHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMjJkM2VlJy8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9JzY0JyBoZWlnaHQ9JzY0JyByeD0nMTQnIGZpbGw9JyMwMjA2MTcnLz48Y2lyY2xlIGN4PSczMicgY3k9JzMyJyByPScyNCcgZmlsbD0ndXJsKCNnKScvPjx0ZXh0IHg9JzMyJyB5PSc0MScgZm9udC1mYW1pbHk9J21vbm9zcGFjZScgZm9udC1zaXplPScyMicgZm9udC13ZWlnaHQ9J2JvbGQnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyMwMjA2MTcnPiYjeDNDOy8mI3gzRTs8L3RleHQ+PC9zdmc+">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts (carregamento assíncrono, não bloqueia a splash) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome para Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+    <!-- FontAwesome para Ícones (carregamento assíncrono, não bloqueia a splash) -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
 
     <!-- Tailwind CSS (pré-compilado) -->
     <link rel="stylesheet" href="styles.css">
@@ -462,7 +469,7 @@
             }
 
             // Tempo máximo de segurança (nunca deixa a splash travar o site)
-            var safetyTimer = setTimeout(hideLoader, 3500);
+            var safetyTimer = setTimeout(hideLoader, 2000);
 
             function done() {
                 clearTimeout(safetyTimer);
