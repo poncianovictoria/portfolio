@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfólio de desenvolvedora web frontend especializada em construir interfaces bonitas, modernas e intuitivas com React, Vue e Tailwind CSS.">
+    <meta name="author" content="Dev.Ponciano">
     <title>Portfólio | Dev.Ponciano</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NCA2NCc+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+PHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjZDk0NmVmJy8+PHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMjJkM2VlJy8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9JzY0JyBoZWlnaHQ9JzY0JyByeD0nMTQnIGZpbGw9JyMwMjA2MTcnLz48Y2lyY2xlIGN4PSczMicgY3k9JzMyJyByPScyNCcgZmlsbD0ndXJsKCNnKScvPjx0ZXh0IHg9JzMyJyB5PSc0MScgZm9udC1mYW1pbHk9J21vbm9zcGFjZScgZm9udC1zaXplPScyMicgZm9udC13ZWlnaHQ9J2JvbGQnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyMwMjA2MTcnPiYjeDNDOy8mI3gzRTs8L3RleHQ+PC9zdmc+">
     <meta name="theme-color" content="#020617">
@@ -14,10 +15,29 @@
     <meta property="og:url" content="https://portfolio.dev.ponciano/">
     <meta property="og:image" content="https://portfolio.dev.ponciano/src/assets/images/sistema-crm-polibalbino.png">
     <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Dev.Ponciano">
+    <meta property="og:image:alt" content="Captura de tela do Sistema Operacional de Orçamentos e CRM Comercial – Polibalbino">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Portfólio | Dev.Ponciano">
     <meta name="twitter:description" content="Portfólio de desenvolvedora web frontend especializada em construir interfaces bonitas, modernas e intuitivas com React, Vue e Tailwind CSS.">
     <meta name="twitter:image" content="https://portfolio.dev.ponciano/src/assets/images/sistema-crm-polibalbino.png">
+    <meta name="twitter:image:alt" content="Captura de tela do Sistema Operacional de Orçamentos e CRM Comercial – Polibalbino">
+    
+    <!-- Dados estruturados (SEO) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dev.Ponciano",
+        "url": "https://portfolio.dev.ponciano/",
+        "jobTitle": "Desenvolvedora Web Frontend",
+        "knowsAbout": ["React", "Vue", "Tailwind CSS", "JavaScript", "HTML", "CSS"],
+        "sameAs": [
+            "https://github.com/poncianovictoria",
+            "https://www.linkedin.com/feed/"
+        ]
+    }
+    </script>
     
     <!-- Google Fonts (carregamento assíncrono, não bloqueia a splash) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +50,7 @@
     <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript>
+        <style>#loader{display:none!important}</style>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
@@ -59,11 +80,6 @@
             opacity: 1;
             transform: translate(0) scale(1);
         }
-
-        /* Delays para animações em cascata */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
 
         /* Forma fluida animada (Blob) */
         .blob-shape {
@@ -151,6 +167,9 @@
 </head>
 <body class="antialiased selection:bg-primary selection:text-white relative">
 
+    <!-- Acessibilidade: link para pular direto ao conteúdo -->
+    <a href="#home" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:bg-white focus:text-dark focus:px-4 focus:py-2 focus:rounded-lg">Pular para o conteúdo</a>
+
     <!-- Tela de Carregamento (Splash) -->
     <div id="loader" aria-hidden="true">
         <div class="loader-ring"></div>
@@ -162,7 +181,7 @@
     <div class="fixed bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-secondary/20 blur-[120px] -z-10 pointer-events-none"></div>
 
     <!-- Navegação -->
-    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-dark/70 border-b border-white/5" id="navbar">
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-dark/70 border-b border-white/5" id="navbar" aria-label="Menu principal">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#home" class="font-heading text-2xl font-bold tracking-tighter flex items-center gap-2">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-fuchsia-500 to-cyan-400 flex items-center justify-center text-white">
@@ -196,6 +215,9 @@
         </div>
     </nav>
 
+    <!-- Conteúdo principal -->
+    <main id="conteudo">
+
     <!-- Seção Home / Hero -->
     <section id="home" class="min-h-screen flex items-center pt-20">
         <div class="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -227,10 +249,15 @@
                 <!-- Gradiente de fundo animado -->
                 <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary opacity-40 blur-2xl blob-shape"></div>                <!-- Imagem -->
                 <div class="relative w-72 h-72 md:w-96 md:h-96 blob-shape overflow-hidden border-4 border-white/10 shadow-2xl">
-                    <img src="src/assets/images/foto-perfil.jpg" 
-                         alt="Foto de perfil de Dev.Ponciano" 
-                         fetchpriority="high"
-                         class="w-full h-full object-cover object-[50%_85%] hover:scale-105 transition-transform duration-700">
+                    <picture class="block w-full h-full">
+                        <source srcset="src/assets/images/foto-perfil-384.webp 384w, src/assets/images/foto-perfil-576.webp 576w, src/assets/images/foto-perfil-768.webp 768w" type="image/webp" sizes="(min-width: 768px) 24rem, 18rem">
+                        <img src="src/assets/images/foto-perfil-768.jpg"
+                             alt="Foto de perfil de Dev.Ponciano"
+                             fetchpriority="high"
+                             width="768" height="1405"
+                             decoding="async"
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" style="object-position: 50% 25%;">
+                    </picture>
                 </div>
                 
                 <!-- Floating badge (Microinteração assimétrica) -->
@@ -260,6 +287,9 @@
                     <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" 
                          alt="Código na tela" 
                          loading="lazy"
+                         width="800" height="533"
+                         decoding="async"
+                         referrerpolicy="no-referrer"
                          class="relative z-10 w-full h-[500px] object-cover rounded-[3rem] shadow-xl filter grayscale group-hover:grayscale-0 transition-all duration-700">
                 </div>
 
@@ -320,6 +350,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Footer -->
     <footer id="contact" class="bg-slate-950/80 border-t border-white/5 relative z-10">

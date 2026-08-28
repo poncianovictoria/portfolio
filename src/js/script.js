@@ -13,9 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
             cardCls: 'reveal-up group relative rounded-[2rem] bg-card overflow-hidden border border-white/5 hover:border-primary/30 transition-colors',
             img: 'src/assets/images/feirao-de-empregos.png',
             alt: 'Landing Page para o Feirão do Emprego ENIAC',
+            width: 900,
+            height: 435,
             imgCls: 'w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700',
             liveHref: 'https://poncianovictoria.github.io/site-feirao-emprego-eniac/',
-            liveExtra: ' target="_blank" rel="noopener noreferrer" aria-label="Abrir site do projeto"',
+            isExternal: true,
             tags: [
                 'text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-md',
                 'text-xs font-semibold text-secondary bg-secondary/10 px-2 py-1 rounded-md',
@@ -29,10 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             cardCls: 'reveal-up delay-100 md:mt-16 group relative rounded-[2rem] bg-card overflow-hidden border border-white/5 hover:border-secondary/30 transition-colors',
             img: 'src/assets/images/sistema-crm-polibalbino.png',
-            alt: 'Projeto 2',
+            alt: 'Captura de tela do Sistema Operacional de Orçamentos e CRM Comercial Polibalbino',
+            width: 900,
+            height: 463,
             imgCls: 'w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-700',
             liveHref: '#',
-            liveExtra: '',
+            isExternal: false,
             tags: [
                 'text-xs font-semibold text-pink-400 bg-pink-400/10 px-2 py-1 rounded-md',
                 'text-xs font-semibold text-secondary bg-secondary/10 px-2 py-1 rounded-md',
@@ -47,9 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
             cardCls: 'reveal-up delay-200 md:-mt-16 group relative rounded-[2rem] bg-card overflow-hidden border border-white/5 hover:border-primary/30 transition-colors',
             img: 'src/assets/images/eniac-comunidade.jpeg',
             alt: 'Site Institucional – ENIAC Comunidades',
+            width: 900,
+            height: 434,
             imgCls: 'w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700',
             liveHref: 'https://poncianovictoria.github.io/site-eniac-comunidades/',
-            liveExtra: ' target="_blank" rel="noopener noreferrer" aria-label="Abrir site do projeto"',
+            isExternal: true,
             tags: [
                 'text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-md',
                 'text-xs font-semibold text-secondary bg-secondary/10 px-2 py-1 rounded-md',
@@ -62,77 +68,142 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     ];
 
+    // Helper: cria um <i> do FontAwesome desativando a leitura por leitores de tela
+    function icon(className) {
+        const i = document.createElement('i');
+        i.className = className;
+        i.setAttribute('aria-hidden', 'true');
+        return i;
+    }
+
+    // Helper: cria um link de ação no overlay do card
+    function actionLink(href, isExternal, className, label) {
+        const a = document.createElement('a');
+        if (isExternal) {
+            a.href = href;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.setAttribute('aria-label', label);
+        } else {
+            a.href = href;
+        }
+        a.className = className;
+        return a;
+    }
+
+    // Build do card de projeto via DOM API (sem innerHTML -> sem vetor de injeção)
+    function buildProjectCard(p) {
+        const card = document.createElement('div');
+        card.className = p.cardCls;
+
+        const media = document.createElement('div');
+        media.className = 'relative h-64 overflow-hidden';
+
+        const img = document.createElement('img');
+        img.src = p.img;
+        img.alt = p.alt;
+        img.width = p.width;
+        img.height = p.height;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.className = p.imgCls;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4';
+
+        const liveLink = actionLink(p.liveHref, p.isExternal, 'w-12 h-12 rounded-full bg-white text-dark flex items-center justify-center hover:scale-110 transition-transform', 'Abrir site do projeto');
+        liveLink.appendChild(icon('fa-solid fa-link'));
+
+        const githubLink = actionLink('#', false, 'w-12 h-12 rounded-full bg-dark/80 text-white flex items-center justify-center hover:scale-110 transition-transform border border-white/20');
+        githubLink.appendChild(icon('fa-brands fa-github'));
+
+        overlay.appendChild(liveLink);
+        overlay.appendChild(githubLink);
+        media.appendChild(img);
+        media.appendChild(overlay);
+
+        const body = document.createElement('div');
+        body.className = 'p-8';
+
+        const tagRow = document.createElement('div');
+        tagRow.className = 'flex gap-2 mb-3';
+        p.tags.forEach((cls, i) => {
+            const tag = document.createElement('span');
+            tag.className = cls;
+            tag.textContent = p.tagLabels[i];
+            tagRow.appendChild(tag);
+        });
+
+        const title = document.createElement('h3');
+        title.className = p.titleCls;
+        title.textContent = p.title;
+
+        const desc = document.createElement('p');
+        desc.className = 'text-slate-400 text-sm';
+        desc.textContent = p.desc;
+
+        body.appendChild(tagRow);
+        body.appendChild(title);
+        body.appendChild(desc);
+
+        card.appendChild(media);
+        card.appendChild(body);
+        return card;
+    }
+
     // Renderiza as pills de habilidades
     const skillsContainer = document.getElementById('skills-pills');
+    const skillsFragment = document.createDocumentFragment();
     skills.forEach(skill => {
         const pill = document.createElement('span');
         pill.className = pillCls;
         pill.textContent = skill;
-        skillsContainer.appendChild(pill);
+        skillsFragment.appendChild(pill);
     });
+    skillsContainer.appendChild(skillsFragment);
 
     // Renderiza os cards de projeto antes da chamada para o GitHub
     const cta = document.getElementById('projects-cta');
-    const cardsHtml = projects.map(p => `
-        <div class="${p.cardCls}">
-            <div class="relative h-64 overflow-hidden">
-                <img src="${p.img}" alt="${p.alt}" loading="lazy" class="${p.imgCls}">
-                <div class="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                    <a href="${p.liveHref}"${p.liveExtra} class="w-12 h-12 rounded-full bg-white text-dark flex items-center justify-center hover:scale-110 transition-transform"><i class="fa-solid fa-link" aria-hidden="true"></i></a>
-                    <a href="#" class="w-12 h-12 rounded-full bg-dark/80 text-white flex items-center justify-center hover:scale-110 transition-transform border border-white/20"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-                </div>
-            </div>
-            <div class="p-8">
-                <div class="flex gap-2 mb-3">
-                    ${p.tags.map((cls, i) => `<span class="${cls}">${p.tagLabels[i]}</span>`).join('\n')}
-                </div>
-                <h3 class="${p.titleCls}">${p.title}</h3>
-                <p class="text-slate-400 text-sm">${p.desc}</p>
-            </div>
-        </div>`).join('\n');
-    cta.insertAdjacentHTML('beforebegin', cardsHtml);
+    const cardsFragment = document.createDocumentFragment();
+    projects.forEach(p => cardsFragment.appendChild(buildProjectCard(p)));
+    cta.before(cardsFragment);
 
     // 1. Lógica do Menu Mobile
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    const navbar = document.getElementById('navbar');
 
-    function closeMenu() {
-        menu.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
+    function setMenuOpen(open) {
+        menu.classList.toggle('hidden', !open);
+        btn.setAttribute('aria-expanded', String(open));
     }
 
     btn.addEventListener('click', () => {
-        const isOpen = menu.classList.toggle('hidden');
-        btn.setAttribute('aria-expanded', String(!isOpen));
+        setMenuOpen(menu.classList.contains('hidden'));
     });
 
-    // Fechar menu ao clicar em um link
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
+    // Fechar menu ao clicar em um link (delegação de evento)
+    menu.addEventListener('click', (e) => {
+        if (e.target.closest('.mobile-link')) setMenuOpen(false);
     });
 
     // A11Y: fechar menu ao clicar fora ou pressionar Esc
     document.addEventListener('click', (e) => {
         if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
-            closeMenu();
+            setMenuOpen(false);
         }
     });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
-            closeMenu();
+            setMenuOpen(false);
+            btn.focus();
         }
     });
 
     // 2. Mudar background da navbar ao rolar (com requestAnimationFrame)
+    const navbar = document.getElementById('navbar');
     let ticking = false;
     function updateNavbar() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('shadow-md');
-        } else {
-            navbar.classList.remove('shadow-md');
-        }
+        navbar.classList.toggle('shadow-md', window.scrollY > 50);
         ticking = false;
     }
     window.addEventListener('scroll', () => {
@@ -168,36 +239,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Esconde a tela de carregamento quando o site termina de carregar
 (function () {
-    var loader = document.getElementById('loader');
+    const loader = document.getElementById('loader');
     if (!loader) return;
+
+    let done = false;
 
     function hideLoader() {
         loader.classList.add('loaded');
         // Remove do DOM após a transição para não ficar pendurado
-        setTimeout(function () {
+        setTimeout(() => {
             if (loader.parentNode) loader.parentNode.removeChild(loader);
         }, 600);
     }
 
     // Tempo máximo de segurança (nunca deixa a splash travar o site)
-    var safetyTimer = setTimeout(hideLoader, 2000);
+    const safetyTimer = setTimeout(finish, 2000);
 
-    function done() {
+    function finish() {
+        if (done) return;
+        done = true;
         clearTimeout(safetyTimer);
+        window.removeEventListener('load', finish);
         hideLoader();
     }
 
-    var loaded = false;
-    function onLoad() { if (!loaded) { loaded = true; done(); } }
-
     if (document.readyState === 'complete') {
-        onLoad();
+        finish();
     } else {
-        window.addEventListener('load', onLoad);
+        window.addEventListener('load', finish);
     }
 
     // As fontes também precisam estar prontas
     if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(onLoad).catch(function(){});
+        document.fonts.ready.then(() => finish()).catch(() => finish());
     }
 })();
